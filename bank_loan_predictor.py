@@ -8,8 +8,11 @@ Created on Tue Mar 10 14:42:37 2026
 
 import streamlit as st
 import numpy as np
-import numpy_financial as npf
 import pandas as pd
+
+def pmt(rate, nper, pv):
+    return (rate * pv) / (1 - (1 + rate)**(-nper))
+
 
 # Dark brown theme + white text
 st.markdown("""
@@ -65,7 +68,8 @@ if st.button("🚀 RUN BANK UNDERWRITING ANALYSIS", type="primary"):
         monthly_rate = rate / 12
         months = term_years * 12
         principal = max(0, loan_amount - down_payment)
-        new_emi = -npf.pmt(monthly_rate, months, principal)
+        new_emi = -pmt(monthly_rate, months, principal)
+
 
         total_emi = new_emi + existing_emi
         monthly_income = salary / 12
